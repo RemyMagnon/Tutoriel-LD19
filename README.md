@@ -42,7 +42,7 @@ Le LD19 utilise le protocole UART pour la communication des données avec les pa
 - **Parity:** None
 - **Flow Control:** None
 
-> [!CONSEIL]
+> [!TIP]
 > Pour les utilisateurs d’Arduino, il suffit de régler la vitesse de transmission (baud rate) sur `230400`. Les autres paramètres sont configurés par défaut aux valeurs correctes.
 
 > [!IMPORTANT]
