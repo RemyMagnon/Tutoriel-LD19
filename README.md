@@ -46,7 +46,7 @@ Le LD19 utilise le protocole UART pour la communication des données avec les pa
 > Pour les utilisateurs d’Arduino, il suffit de régler la vitesse de transmission (baud rate) sur `230400`. Les autres paramètres sont configurés par défaut aux valeurs correctes.
 
 > [!IMPORTANT]
-> The LD19 LiDAR starts transmitting measurement data as soon as its rotation stabilizes, which typically takes two to three seconds. There is no need to send any commands to initiate this process. In fact, you cannot send any commands to do so.
+> Le LiDAR LD19 commence à transmettre les données de mesure dès que sa rotation se stabilise, ce qui prend généralement deux à trois secondes. Il n’est pas nécessaire d’envoyer des commandes pour lancer ce processus. En réalité, il est impossible d’envoyer des commandes pour cela.
 
 ## Protocole de données
 
@@ -66,9 +66,7 @@ Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne
 | CRC check | 1 Octet | Vérification de toutes les données précédentes | Vérifie le transfert des données pour en garantir l’exactitude et l’intégralité, assurant ainsi des résultats sans erreur. |
 
 > [!IMPORTANT]
-> We receive initial and final angles for every set of 12 points. The documentation advises using linear interpolation to determine the angles for each individual point. For detailed implementation steps, refer to the [Implementation section](#implementation). (Do not worry, it is very simple.)
-
-Nous recevons les angles initial et final pour chaque série de 12 points. La documentation recommande d’utiliser une interpolation linéaire pour déterminer l’angle de chaque point individuel. Pour les étapes détaillées de mise en œuvre, référez-vous à la [section implémentation](#implementation). (Ne vous inquiétez pas, c’est très simple.)
+> Nous recevons les angles initial et final pour chaque série de 12 points. La documentation recommande d’utiliser une interpolation linéaire pour déterminer l’angle de chaque point individuel. Pour les étapes détaillées de mise en œuvre, référez-vous à la [section implémentation](#implementation). (Ne vous inquiétez pas, c’est très simple.)
 
 ### Comprendre le paquet de données
 
@@ -337,7 +335,7 @@ Vous pouvez retrouver l’intégralité de notre code source disponible [ici](ht
 
 ## Liens
 
-- [Ce qui semble être la documentation officielle](https://wiki.youyeetoo.com/en/Lidar/D300) ***Contains errors***
+- [Ce qui semble être la documentation officielle](https://wiki.youyeetoo.com/en/Lidar/D300) ***Contient des erreurs***
 - [Une meilleure documentation.](https://www.elecrow.com/download/product/SLD06360F/LD19_Development%20Manual_V2.3.pdf) ([version locale](./documents/LD19_Development_Manual_v2.5.pdf) si le site enlève le document)
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/RemyMagnon/Tutoriel-LD19">Tutoriel-LD19</a> (seulement le texte et le code de ce document, pas les images ou les autres fichiers) par <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/RemyMagnon">RemyMagnon</a> est sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
