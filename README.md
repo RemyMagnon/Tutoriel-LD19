@@ -1,40 +1,40 @@
-# Tutorial on LiDAR LD19
+# Tutoriel LiDAR LD19
 
-LD19 is a low cost LiDAR that we (LudovaTech team) used for the Robocup Junior competition. We find out that it works very well for our requirements but that there was no proper documentation or tutorial on the web. We succeeded to make it work after long days of work. Here is how we did it!
+Le LD19 est un LiDAR peu coûteux et très efficace, mais il n’existe pas de documentation ou de tutoriel adéquat sur le web. J’ai néanmoins réussi à le faire fonctionner après de longues journées de travail. Voici comment j'y suis arrivé !
 
 > [!TIP]
-> This tutorial aims to guide you in retrieving LiDAR data from a microcontroller in a format that enables immediate processing onboard. If you just need to check that your LiDAR is working, [these documents](#links) provide instructions on using their software to view the data on your computer.
+> Ce tutoriel a pour but de vous guider dans la récupération des données LiDAR à partir d’un microcontrôleur, dans un format permettant un traitement immédiat à bord. Si vous souhaitez simplement vérifier que votre LiDAR fonctionne, [ces documents](#links) fournissent des instructions pour utiliser leur logiciel afin de visualiser les données sur votre ordinateur.
 
 > [!NOTE]
-> This is not an official documentation.
+> Ceci n’est pas une documentation officielle.
 >
-> All this documentation and code are licensed under CC BY-SA 4.0, with the exception of images and other files.
+> Toute cette documentation et le code sont sous licence CC BY-SA 4.0, à l’exception des images et autres fichiers.
 
-If you notice something missing or have any ideas, please feel free to open a [GitHub issue](https://github.com/LudovaTech/lidar-LD19-tutorial/issues/new).
+Si vous remarquez un oubli ou avez des suggestions, n’hésitez pas à ouvrir une [issue sur GitHub](https://github.com/LudovaTech/lidar-LD19-tutorial/issues/new).
 
-## Overview
+## Aperçu
 
 ![LiDAR LD19](./images/lidar-LD19.jpg)
 
-The LD19 LiDAR uses Direct Time-of-Flight (DTOF) technology, which measures the time interval between emitting and receiving a signal. According to the manufacturer’s documentation, the LD19 can perform up to 5,000 measurements per second.
+Le LiDAR LD19 utilise la technologie Direct Time-of-Flight (DTOF), qui mesure l’intervalle de temps entre l’émission et la réception d’un signal. Selon la documentation du fabricant, le LD19 peut effectuer jusqu’à 5 000 mesures par seconde.
 
 > [!NOTE]
-> In our application, we observed that one complete rotation of the LiDAR takes approximately 130 milliseconds, resulting in around 600 measurement points per loop.
+> J'ai observé qu’une rotation complète du LiDAR prend environ 100 millisecondes, ce qui donne environ 450 points de mesure par tour.
 
 ## Communication interface
 
-You can use a `JST ZH 4-pin` connector to link the LiDAR to other components, enabling both power supply and data reception. The interface details are outlined in the table below:
+Vous pouvez utiliser un connecteur `JST ZH à 4 broches` pour relier le LiDAR à d’autres composants, ce qui permet à la fois l’alimentation et la réception des données. Les détails de l’interface sont présentés dans le tableau ci-dessous :
 
-From left to right, holding the LiDAR with the circular part facing upwards.
+De gauche à droite, en tenant le LiDAR avec la partie circulaire orientée vers le haut.
 
-| Name and Type |  Voltage  |   Comments   |
+| Nom et type |  Tension  |   Commentaires   |
 | :------------ | :-------: | :----------- |
-| **Tx** (output UART), LiDAR data output at `230400` baud rate | 0V - 3.5V </br> typical: 3.3V | This LiDAR only sends data and does not receive any, hence the absence of an Rx port. |
-| **PWM** (input), controls the speed of the built-in motor. Current LiDAR speed is indicated in the data sent | 0V - 3.3V | If manual control of the LiDAR speed is not required, the designated pin can be set to ground (GND) upon initiation of the LiDAR device and maintained in this state throughout its operation. (More informations on *manual* speed control in the [real documentation](#links))|
-| **Ground** (power supply) | 0V | - |
-| **5V** (power supply) | 4.5V - 5.5V </br> typical: 5V | - |
+| **Tx** (sortie UART), données du LiDAR à un baud rate `230400` | 0V - 3.5V </br> typique: 3.3V | Ce LiDAR envoie uniquement des données et n’en reçoit aucune, d’où l’absence de port Rx. |
+| **PWM** (entrée), contrôle la vitesse du moteur intégré. La vitesse actuelle du LiDAR est indiquée dans les données transmises | 0V - 3.3V | Si le contrôle manuel de la vitesse du LiDAR n’est pas nécessaire, la broche dédiée peut être reliée à la masse (GND) lors de l’activation du dispositif LiDAR, et maintenue dans cet état pendant toute la durée de son fonctionnement. (Plus d’informations sur le contrôle manuel de la vitesse dans la [documentation réelle](#links))|
+| **Ground** (alimentation) | 0V | - |
+| **5V** (alimentation) | 4.5V - 5.5V </br> typique: 5V | - |
 
-The LD19 uses UART protocol for data communication with the following settings:
+Le LD19 utilise le protocole UART pour la communication des données avec les paramètres suivants :
 
 - **Baud Rate:** 230400
 - **Data Length:** 8 bits
