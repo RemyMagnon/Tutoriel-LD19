@@ -42,57 +42,60 @@ Le LD19 utilise le protocole UART pour la communication des données avec les pa
 - **Parity:** None
 - **Flow Control:** None
 
-> [!TIP]
-> For Arduino users, simply set the baud rate to `230400`. The other parameters are set to the correct values by default.
+> [!CONSEIL]
+> Pour les utilisateurs d’Arduino, il suffit de régler la vitesse de transmission (baud rate) sur `230400`. Les autres paramètres sont configurés par défaut aux valeurs correctes.
 
 > [!IMPORTANT]
 > The LD19 LiDAR starts transmitting measurement data as soon as its rotation stabilizes, which typically takes two to three seconds. There is no need to send any commands to initiate this process. In fact, you cannot send any commands to do so.
 
-## Data protocol
+## Protocole de données
 
-### Data packet format
+### Format du paquet de données
 
-The LD19 uses one-way communication. Once it is operating stably, it begins to send measurement data packets automatically, without requiring any commands. There is 12 points per packet. The format of these measurement packets is illustrated in the table below.
+Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne de manière stable, il commence automatiquement à envoyer des paquets de données de mesure, sans nécessiter de commandes. Chaque paquet contient 12 points de mesure. Le format de ces paquets de mesure est illustré dans le tableau ci-dessous.
 
-|  Name  | Length | Type or Value | Description |
+|  Nom  | Longueur | Type ou Valeur | Description |
 | :----: | :----: | :-----------: | :---------- |
-| Header | 1 Byte | Always `0x54` | Indicating the start of the data packet |
-| VerLen | 1 Byte | Always `0x2C` | The upper three bits of the byte specify the packet type, which is currently set to 1. The lower five bits represent the number of measurement points in a packet, which is fixed at 12. |
-| Speed  | 2 Bytes | [least significant bit][LSB] before, </br> *unit: degrees per second* | Indicate the speed of the LiDAR |
-| Start Angle | 2 Bytes | [least significant bit][LSB] before, </br> *unit: 0.01 degrees* | Indicate the starting angle of the data packet point |
-| **Data** | 3 * 12 Bytes | ... | Please refer to the [next section](#understanding-data-packet) for further details. |
-| End angle | 2 Bytes | [least significant bit][LSB] before, </br> *unit: 0.01 degrees* | Indicate the end angle of the data packet point |
-| Timestamp | 2 Bytes | [least significant bit][LSB] before, </br> *unit: milliseconds*, </br> Reset to zero upon reaching `30000` | Indicating the timestamp value of the data packet |
-| CRC check | 1 Bytes | Verification of all previous data *except itself* | Verifies data transfer for accuracy and completeness, ensuring error-free results. |
+| Header | 1 Octet | Toujours `0x54` | Indiquant le début du paquet de données. |
+| VerLen | 1 Octet | Toujours `0x2C` | Les trois bits supérieurs de l’octet spécifient le type de paquet, qui est actuellement fixé à 1. Les cinq bits inférieurs représentent le nombre de points de mesure dans un paquet, qui est fixé à 12. |
+| Vitesse  | 2 Octets | [least significant bit][LSB] avant, </br> *unité: degrés par seconde* | Indique la vitesse du LiDAR. |
+| Angle de départ | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle de départ du paquet de données. |
+| **Données** | 3 * 12 Octets | ... | Référez-vous à la [section suivante](#understanding-data-packet) pour plus de détails. |
+| Angle d'arrivée | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle d'arrivée du paquet de données. |
+| Timestamp | 2 Octets | [least significant bit][LSB] avant, </br> *unité: millisecondes*, </br> Remise à zéro lorsqu’il atteint `30000` | Indique la valeur du timestamp du paquet de données. |
+| CRC check | 1 Octet | Vérification de toutes les données précédentes | Vérifie le transfert des données pour en garantir l’exactitude et l’intégralité, assurant ainsi des résultats sans erreur. |
 
 > [!IMPORTANT]
 > We receive initial and final angles for every set of 12 points. The documentation advises using linear interpolation to determine the angles for each individual point. For detailed implementation steps, refer to the [Implementation section](#implementation). (Do not worry, it is very simple.)
 
-### Understanding data packet
+Nous recevons les angles initial et final pour chaque série de 12 points. La documentation recommande d’utiliser une interpolation linéaire pour déterminer l’angle de chaque point individuel. Pour les étapes détaillées de mise en œuvre, référez-vous à la [section implémentation](#implementation). (Ne vous inquiétez pas, c’est très simple.)
 
-Each of the 12 mesurement points per packet is composed of 2 values :
+### Comprendre le paquet de données
 
-|   Name   | Length  | Type or Value | Description |
+Chacune des 12 mesures de chaque paquet est composé de 2 valeurs :
+
+|   Nom   | Longueur  | Type ou Valeur | Description |
 | :------: | :-----: | :-----------: | :---------- |
-| Distance | 2 Bytes | [least significant bit][LSB] before, </br> *unit: mm* | The distance to the detected point |
-| Intensity | 1 Byte | reflects the light reflection intensity | Light intensity is positively correlated to the signal's intensity value. For a white object within 6 meters, the typical signal strength value is approximately 200. |
+| Distance | 2 Octets | [least significant bit][LSB] avant, </br> *unité: mm* | La distance au point détecté. |
+| Intensité | 1 Octet | Représente l'intensité de la lumière refletée | L’intensité lumineuse est proportionnelle à la valeur d’intensité du signal. Pour un objet blanc situé à moins de 6 mètres, la valeur typique de la puissance du signal est d’environ 200. |
 
 > [!NOTE]
-> The LD19 employs a left-handed coordinate system with the rotation center at the origin. The front of the sensor is designated as the zero-degree direction, and the rotation angle increases clockwise, as illustrated in the figure below. </br>
-> ![Lidar Coordinate System](./images/lidar-coordinate-system.jpg)
+> Le LD19 utilise un système de coordonnées gaucher avec le centre de rotation à l’origine. L’avant du capteur est défini comme la direction zéro degré, et l’angle de rotation augmente dans le sens horaire, comme illustré dans la figure ci-dessous. </br>
+> ![Système de coordonnées du LiDAR](./images/lidar-coordinate-system.jpg)
 
-## Implementation
+## Implémentation
 
-### Linear Interpolation
+### Interpolation Linéaire
 
-Linear interpolation is in this case a method of estimating values that lie between two known values. Here, it assumes that all points are at the same distance from each other.
-All you need to do is:
+L’interpolation linéaire est dans ce cas une méthode permettant d’estimer des valeurs situées entre deux valeurs connues. Ici, elle suppose que tous les points sont à égale distance les uns des autres.
+Voici ce que vous devez faire :
 
-- Calculate the distance `angleStep` between each point: `(endAngle - startAngle) / nbr_points`. `nbr_points` is always equal to 12 with this LiDAR.
-- Calculate the angle for point `n` : `startAngle + (angleStep * n)`
-- The calculations are actually slightly more complex than indicated in the documentation, particularly to handle the transition from 359° to 0°.
+- Calculez la distance `angleStep` entre chaque point : `(endAngle - startAngle) / nbr_points`. `nbr_points` est toujours égal à 12 avec ce LiDAR.
+- Calculez l’angle du point `n` : `startAngle + (angleStep * n)`.
+- Les calculs sont en réalité un peu plus complexes que ceux indiqués dans la documentation, notamment pour gérer la transition de 359° à 0°.
 
-Here is our C++ implementation, which includes the 359° - 0° transition :
+Voici notre implémentation en C++, qui inclut la gestion de la transition 359° - 0° :
+
 
 ```c++
 // Calculates the step size between startAngle and endAngle (in tenths of a degree),
