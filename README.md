@@ -59,10 +59,10 @@ Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne
 | Header | 1 Octet | Toujours `0x54` | Indiquant le début du paquet de données. |
 | VerLen | 1 Octet | Toujours `0x2C` | Les trois bits supérieurs de l’octet spécifient le type de paquet, qui est actuellement fixé à 1. Les cinq bits inférieurs représentent le nombre de points de mesure dans un paquet, qui est fixé à 12. |
 | Vitesse  | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: degrés par seconde* | Indique la vitesse du LiDAR. |
-| Angle de départ | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle de départ du paquet de données. |
+| Angle de départ | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle de départ du paquet de données. |
 | **Données** | 3 * 12 Octets | ... | Référez-vous à la [section suivante](#understanding-data-packet) pour plus de détails. |
-| Angle d'arrivée | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle d'arrivée du paquet de données. |
-| Timestamp | 2 Octets | [least significant bit][LSB] avant, </br> *unité: millisecondes*, </br> Remise à zéro lorsqu’il atteint `30000` | Indique la valeur du timestamp du paquet de données. |
+| Angle d'arrivée | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle d'arrivée du paquet de données. |
+| Timestamp | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: millisecondes*, </br> Remise à zéro lorsqu’il atteint `30000` | Indique la valeur du timestamp du paquet de données. |
 | CRC check | 1 Octet | Vérification de toutes les données précédentes | Vérifie le transfert des données pour en garantir l’exactitude et l’intégralité, assurant ainsi des résultats sans erreur. |
 
 > [!IMPORTANT]
@@ -74,7 +74,7 @@ Chacune des 12 mesures de chaque paquet est composé de 2 valeurs :
 
 |   Nom   | Longueur  | Type ou Valeur | Description |
 | :------: | :-----: | :-----------: | :---------- |
-| Distance | 2 Octets | [least significant bit][LSB] avant, </br> *unité: mm* | La distance au point détecté. |
+| Distance | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: mm* | La distance au point détecté. |
 | Intensité | 1 Octet | Représente l'intensité de la lumière refletée | L’intensité lumineuse est proportionnelle à la valeur d’intensité du signal. Pour un objet blanc situé à moins de 6 mètres, la valeur typique de la puissance du signal est d’environ 200. |
 
 > [!NOTE]
@@ -340,4 +340,5 @@ Vous pouvez retrouver l’intégralité de notre code source disponible [ici](ht
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/RemyMagnon/Tutoriel-LD19">Tutoriel-LD19</a> (seulement le texte et le code de ce document, pas les images ou les autres fichiers) par <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/RemyMagnon">RemyMagnon</a> est sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
 
-[LSB]: https://en.wikipedia.org/wiki/Bit_numbering
+[LSB]: https://fr.wikipedia.org/wiki/Num%C3%A9rotation_des_bits
+
