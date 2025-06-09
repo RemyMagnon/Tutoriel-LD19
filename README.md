@@ -66,7 +66,7 @@ Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne
 | CRC check | 1 Octet | Vérification de toutes les données précédentes | Vérifie le transfert des données pour en garantir l’exactitude et l’intégralité, assurant ainsi des résultats sans erreur. |
 
 > [!IMPORTANT]
-> Nous recevons les angles initial et final pour chaque série de 12 points. La documentation recommande d’utiliser une interpolation linéaire pour déterminer l’angle de chaque point individuel. Pour les étapes détaillées de mise en œuvre, référez-vous à la [section implémentation](#implementation). (Ne vous inquiétez pas, c’est très simple.)
+> Nous recevons les angles initial et final pour chaque série de 12 points. La documentation recommande d’utiliser une interpolation linéaire pour déterminer l’angle de chaque point individuel. Pour les étapes détaillées de mise en œuvre, référez-vous à la [section implémentation](#Implémentation). (Ne vous inquiétez pas, c’est très simple.)
 
 ### Comprendre le paquet de données
 
