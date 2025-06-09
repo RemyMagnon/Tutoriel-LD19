@@ -30,7 +30,7 @@ De gauche à droite, en tenant le LiDAR avec la partie circulaire orientée vers
 | Nom et type |  Tension  |   Commentaires   |
 | :------------ | :-------: | :----------- |
 | **Tx** (sortie UART), données du LiDAR à un baud rate `230400` | 0V - 3.5V </br> typique: 3.3V | Ce LiDAR envoie uniquement des données et n’en reçoit aucune, d’où l’absence de port Rx. |
-| **PWM** (entrée), contrôle la vitesse du moteur intégré. La vitesse actuelle du LiDAR est indiquée dans les données transmises | 0V - 3.3V | Si le contrôle manuel de la vitesse du LiDAR n’est pas nécessaire, la broche dédiée peut être reliée à la masse (GND) lors de l’activation du dispositif LiDAR, et maintenue dans cet état pendant toute la durée de son fonctionnement. (Plus d’informations sur le contrôle manuel de la vitesse dans la [documentation réelle](#links))|
+| **PWM** (entrée), contrôle la vitesse du moteur intégré. La vitesse actuelle du LiDAR est indiquée dans les données transmises | 0V - 3.3V | Si le contrôle manuel de la vitesse du LiDAR n’est pas nécessaire, la broche dédiée peut être reliée à la masse (GND) lors de l’activation du dispositif LiDAR, et maintenue dans cet état pendant toute la durée de son fonctionnement. (Plus d’informations sur le contrôle manuel de la vitesse dans la [documentation réelle](#liens))|
 | **Ground** (alimentation) | 0V | - |
 | **5V** (alimentation) | 4.5V - 5.5V </br> typique: 5V | - |
 
