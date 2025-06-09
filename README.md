@@ -167,7 +167,7 @@ uint8_t _calCRC8FromBuffer(uint8_t* p, uint8_t lenWithoutCRCCheckValue) {
 
 Pour vérifier si les valeurs sont valides, il suffit de comparer le résultat de cette fonction avec les données reçues du LiDAR.
 
-> [!ATTENTION]
+> [!CAUTION]
 > Dans certains documents de la documentation du LiDAR LD19, la table crcTable est incomplète, ce qui entraîne un dysfonctionnement. Cette version inclut toutes les lignes de code nécessaires.
 
 ### Voici l’implémentation complète en C++ pour interpréter les données reçues du LiDAR :
