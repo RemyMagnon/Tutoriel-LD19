@@ -60,7 +60,7 @@ Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne
 | VerLen | 1 Octet | Toujours `0x2C` | Les trois bits supérieurs de l’octet spécifient le type de paquet, qui est actuellement fixé à 1. Les cinq bits inférieurs représentent le nombre de points de mesure dans un paquet, qui est fixé à 12. |
 | Vitesse  | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: degrés par seconde* | Indique la vitesse du LiDAR. |
 | Angle de départ | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle de départ du paquet de données. |
-| **Données** | 3 * 12 Octets | ... | Référez-vous à la [section suivante](#Comprendre le paquet de données) pour plus de détails. |
+| **Données** | 3 * 12 Octets | ... | Référez-vous à la [next section](#Comprendre-le-paquet-de-données) pour plus de détails. |
 | Angle d'arrivée | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle d'arrivée du paquet de données. |
 | Timestamp | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: millisecondes*, </br> Remise à zéro lorsqu’il atteint `30000` | Indique la valeur du timestamp du paquet de données. |
 | CRC check | 1 Octet | Vérification de toutes les données précédentes | Vérifie le transfert des données pour en garantir l’exactitude et l’intégralité, assurant ainsi des résultats sans erreur. |
