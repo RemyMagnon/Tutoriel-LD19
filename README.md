@@ -58,7 +58,7 @@ Le LD19 utilise une communication unidirectionnelle. Une fois qu’il fonctionne
 | :----: | :----: | :-----------: | :---------- |
 | Header | 1 Octet | Toujours `0x54` | Indiquant le début du paquet de données. |
 | VerLen | 1 Octet | Toujours `0x2C` | Les trois bits supérieurs de l’octet spécifient le type de paquet, qui est actuellement fixé à 1. Les cinq bits inférieurs représentent le nombre de points de mesure dans un paquet, qui est fixé à 12. |
-| Vitesse  | 2 Octets | [least significant bit][LSB] avant, </br> *unité: degrés par seconde* | Indique la vitesse du LiDAR. |
+| Vitesse  | 2 Octets | [Bit de poids faible][LSB] avant, </br> *unité: degrés par seconde* | Indique la vitesse du LiDAR. |
 | Angle de départ | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle de départ du paquet de données. |
 | **Données** | 3 * 12 Octets | ... | Référez-vous à la [section suivante](#understanding-data-packet) pour plus de détails. |
 | Angle d'arrivée | 2 Octets | [least significant bit][LSB] avant, </br> *unité: 0.01 degrés* | Indique l’angle d'arrivée du paquet de données. |
