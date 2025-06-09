@@ -3,7 +3,7 @@
 Le LD19 est un LiDAR peu coûteux et très efficace, mais il n’existe pas de documentation ou de tutoriel adéquat sur le web. J’ai néanmoins réussi à le faire fonctionner après de longues journées de travail. Voici comment j'y suis arrivé !
 
 > [!TIP]
-> Ce tutoriel a pour but de vous guider dans la récupération des données LiDAR à partir d’un microcontrôleur, dans un format permettant un traitement immédiat à bord. Si vous souhaitez simplement vérifier que votre LiDAR fonctionne, [ces documents](#links) fournissent des instructions pour utiliser leur logiciel afin de visualiser les données sur votre ordinateur.
+> Ce tutoriel a pour but de vous guider dans la récupération des données LiDAR à partir d’un microcontrôleur, dans un format permettant un traitement immédiat à bord. Si vous souhaitez simplement vérifier que votre LiDAR fonctionne, [ces documents](#liens) fournissent des instructions pour utiliser leur logiciel afin de visualiser les données sur votre ordinateur.
 
 > [!NOTE]
 > Ceci n’est pas une documentation officielle.
