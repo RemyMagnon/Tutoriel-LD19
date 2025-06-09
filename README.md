@@ -98,9 +98,9 @@ Voici notre implémentation en C++, qui inclut la gestion de la transition 359°
 
 
 ```c++
-// Calculates the step size between startAngle and endAngle (in tenths of a degree),
-// divided by lenMinusOne, which represents the number of steps minus one.
-// Assumes angles are within 0 to 3599 (representing 0.0° to 359.9°).
+// Calcule la taille du pas entre startAngle et endAngle (en dixièmes de degré).
+// divisé par lenMinusOne, qui représente le nombre de pas moins un.
+// Suppose que les angles sont compris entre 0 et 3599 (représentant 0,0° à 359,9°).
 uint16_t angleStep(uint16_t startAngle, uint16_t endAngle, unsigned int lenMinusOne) {
   if (startAngle <= endAngle) {
     return (endAngle - startAngle) / lenMinusOne;
@@ -109,17 +109,17 @@ uint16_t angleStep(uint16_t startAngle, uint16_t endAngle, unsigned int lenMinus
   }
 }
 
-// Calculates the angle (in tenths of a degree) corresponding to a given step index,
-// starting from startAngle, with each step being step tenths of a degree.
-// Returns the angle wrapped within 0 to 3599 (representing 0.0° to 359.9°).
+// Calcule l’angle (en dixièmes de degré) correspondant à un indice de pas donné.
+// à partir de startAngle, chaque pas valant step dixièmes de degré.
+// Retourne l’angle normalisé entre 0 et 3599 (représentant 0,0° à 359,9°).
 uint16_t angleFromStep(uint16_t startAngle, uint16_t step, unsigned int indice) {
   return (startAngle + (step * indice)) % 36000;
 }
 ```
 
-### Read a 2-Bytes value with least significant bit before
+### Lire une valeur sur 2 octets avec l’octet de poids faible en premier
 
-Here's how to interpret a 2-byte value (LSB/MSB) using an array called `buffer` that holds the bytes, with `index` indicating the position of the least significant bit (LSB, the first one).
+Voici comment interpréter une valeur sur 2 octets (LSB/MSB) à partir d’un tableau `buffer` contenant les octets, où `index` indique la position du bit de poids faible (LSB, le premier) :
 
 ```c++
 uint16_t _get2BytesLsbMsb(byte buffer[], int index) {
@@ -127,11 +127,11 @@ uint16_t _get2BytesLsbMsb(byte buffer[], int index) {
 }
 ```
 
-### Implementing CRC check
+### Implémenter le CRC check
 
-Here is how to implement the CRC check to check data validity :
-`p` is an array containing bytes retrieved from the lidar.
-`lenWithoutCRCCheckValue` represents the total length of data sent by the LiDAR excluding the CRC check. For this lidar, it equals 44 bytes.
+Voici comment implémenter la vérification CRC pour contrôler la validité des données :
+`p` est un tableau contenant les octets récupérés depuis le LiDAR.
+`lenWithoutCRCCheckValue` représente la longueur totale des données envoyées par le LiDAR, hors contrôle CRC. Pour ce LiDAR, elle est de 44 octets.
 
 ```c++
 static const uint8_t crcTable[256] = {
@@ -167,12 +167,12 @@ uint8_t _calCRC8FromBuffer(uint8_t* p, uint8_t lenWithoutCRCCheckValue) {
 }
 ```
 
-To determine if the values are valid, just compare the output of this function with the data received from the lidar.
+Pour vérifier si les valeurs sont valides, il suffit de comparer le résultat de cette fonction avec les données reçues du LiDAR.
 
-> [!CAUTION]
-> In some LD19 LiDAR documentation documents, the crcTable is incomplete, resulting in its malfunctioning. This version includes all required lines of code.
+> [!ATTENTION]
+> Dans certains documents de la documentation du LiDAR LD19, la table crcTable est incomplète, ce qui entraîne un dysfonctionnement. Cette version inclut toutes les lignes de code nécessaires.
 
-### The complete C++ implementation for understanding data received from the lidar
+### Voici l’implémentation complète en C++ pour interpréter les données reçues du LiDAR :
 
 `lidar_reader.h`
 
@@ -256,7 +256,7 @@ String LidarPoint::toString() const {
   return result;
 }
 
-//////FUNCTIONS
+//////FONCTIONS
 
 std::vector<LidarPoint> getPoints() {
   std::vector<LidarPoint> points;
@@ -331,14 +331,14 @@ uint16_t angleFromStep(uint16_t startAngle, uint16_t step, unsigned int indice) 
 }
 ```
 
-To use the LD19 LiDAR with your board and this code, simply define `SerialLidar` (with `#define`) as the appropriate Serial object for your board. Then, call the `getPoints` function to receive a `std::vector` containing all detected points from the lidar.
+Pour utiliser le LiDAR LD19 avec votre carte et ce code, il suffit de définir `SerialLidar` (avec `#define`) comme l’objet Serial adapté à votre carte. Ensuite, appelez la fonction `getPoints` pour recevoir un `std::vector` contenant tous les points détectés par le LiDAR.
 
-You can find all our source code available at [this location](https://github.com/LudovaTech/robot-prog-public).
+Vous pouvez retrouver l’intégralité de notre code source disponible [ici](https://github.com/LudovaTech/robot-prog-public).
 
 ## Links
 
-- [What seems to be the official documentation](https://wiki.youyeetoo.com/en/Lidar/D300) ***Contains errors***
-- [A better documentation.](https://www.elecrow.com/download/product/SLD06360F/LD19_Development%20Manual_V2.3.pdf) ([local version](./documents/LD19_Development_Manual_v2.5.pdf) if the website removes the document)
+- [Ce qui semble être la documentation officielle](https://wiki.youyeetoo.com/en/Lidar/D300) ***Contains errors***
+- [Une meilleure documentation.](https://www.elecrow.com/download/product/SLD06360F/LD19_Development%20Manual_V2.3.pdf) ([version locale](./documents/LD19_Development_Manual_v2.5.pdf) si le site enlève le document)
 
 <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/LudovaTech/lidar-LD19-tutorial">lidar-LD19-tutorial</a> (only the text and code of this document, not the images or the other files) by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/LudovaTech">LudovaTech (D'Artagnant)</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1" alt=""></a></p>
 
